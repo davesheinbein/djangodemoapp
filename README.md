@@ -57,3 +57,9 @@ Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser to see th
 - **Home**: Accessible at `/`, this path returns a simple greeting message.
 - **About**: Accessible at `/about/`, this path returns a brief description message.
 - **Admin**: Accessible at `/admin/`, this path provides access to the Django admin interface.
+
+## Static Files
+
+The project includes a `styles.scss` file that is compiled to `styles.css` and used to style the pages. The CSS file is located in the `static` directory and is automatically served by Django during development.
+
+To include the CSS in your HTML responses, add the following line in the `<head>` section of your HTML:

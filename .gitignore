@@ -23,3 +23,6 @@ venv/
 
 # Windows-specific files
 Thumbs.db
+
+__pycache__
+./compontents/__pycache__/

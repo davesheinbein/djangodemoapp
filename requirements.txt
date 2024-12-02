@@ -1,9 +1,9 @@
-asgiref==3.8.1
-certifi==2024.8.30
-charset-normalizer==3.4.0
-Django==4.2.16
-idna==3.10
-requests==2.32.3
-sqlparse==0.5.2
-typing-extensions==4.12.2
-urllib3==2.2.3
+asgiref==3.8.1  # ASGI (Asynchronous Server Gateway Interface) reference implementation
+certifi==2024.8.30  # Python package for providing Mozilla's CA Bundle
+charset-normalizer==3.4.0  # Library for detecting character encodings in text
+Django==4.2.16  # High-level Python web framework
+idna==3.10  # Internationalized Domain Names in Applications (IDNA) library
+requests==2.32.3  # Simple HTTP library for Python
+sqlparse==0.5.2  # Non-validating SQL parser
+typing-extensions==4.12.2  # Backported and experimental type hints for Python
+urllib3==2.2.3  # HTTP library with thread-safe connection pooling
