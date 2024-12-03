@@ -1,0 +1,156 @@
+{% extends 'base.html' %} {% load static %}
+<body class="visitors-body">
+	{% block content %}
+	<div class="visitors container">
+		<h1 class="visitors-title">Visitors</h1>
+		{% if visitors %}
+		<table class="visitors-table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Favorite Thing to Cook</th>
+					<th>Additional Comments</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody id="visitorsTableBody">
+				{% for visitor in visitors %}
+				<tr id="visitor-{{ visitor.id }}">
+					<td>{{ visitor.name }}</td>
+					<td>{{ visitor.email }}</td>
+					<td>{{ visitor.phone }}</td>
+					<td>{{ visitor.favorite_thing_to_cook }}</td>
+					<td>{{ visitor.additional_comments }}</td>
+					<td class="row">
+						<!-- prettier-ignore -->
+						{% if user.is_authenticated and user == visitor.created_by or user.is_staff %} 
+						<button
+							type="button"
+							class="btn-edit"
+							onclick="openEditModal({{ visitor.id }})"
+						>
+							✏️
+						</button>
+						<!-- prettier-ignore -->
+						{% endif %} 
+						<!-- prettier-ignore -->
+						{% if user.is_authenticated and user.is_staff %} 
+						<form
+							method="post"
+							action="{% url 'delete_visitor' visitor.id %}"
+							class="form-delete"
+							onsubmit="deleteVisitor(event, {{ visitor.id }})"
+						>
+							{% csrf_token %}
+							<button type="submit" class="btn-delete">
+								❌
+							</button>
+						</for>
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<p>No visitors found.</p>
+		{% endif %}
+	</div>
+
+	<!-- Edit Visitor Modal -->
+	<div id="editVisitorModal" style="display: none">
+		<div class="modal-content">
+			<span class="close" onclick="closeEditModal()"
+				>&times;</span
+			>
+			<form id="editVisitorForm" method="post">
+				{% csrf_token %}
+				<div id="modalFormContent"></div>
+				<button type="submit" class="btn-submit">
+					Save
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<script>
+		function openEditModal(visitorId) {
+			fetch(`/visitors/edit/${visitorId}/`)
+				.then((response) => response.text())
+				.then((html) => {
+					document.getElementById(
+						'modalFormContent'
+					).innerHTML = html;
+					document.getElementById(
+						'editVisitorModal'
+					).style.display = 'block';
+				});
+		}
+
+		function closeEditModal() {
+			document.getElementById(
+				'editVisitorModal'
+			).style.display = 'none';
+		}
+
+		document
+			.getElementById('editVisitorForm')
+			.addEventListener('submit', function (event) {
+				event.preventDefault();
+				const formData = new FormData(this);
+				const visitorId = formData.get('id');
+				fetch(`/visitors/update/${visitorId}/`, {
+					method: 'POST',
+					body: formData,
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.success) {
+							updateVisitorRow(visitorId, formData);
+							closeEditModal();
+						} else {
+							alert('Error updating visitor');
+						}
+					});
+			});
+
+		function updateVisitorRow(visitorId, formData) {
+			const row = document.getElementById(
+				`visitor-${visitorId}`
+			);
+			row.querySelector('td:nth-child(1)').textContent =
+				formData.get('name');
+			row.querySelector('td:nth-child(2)').textContent =
+				formData.get('email');
+			row.querySelector('td:nth-child(3)').textContent =
+				formData.get('phone');
+			row.querySelector('td:nth-child(4)').textContent =
+				formData.get('favorite_thing_to_cook');
+			row.querySelector('td:nth-child(5)').textContent =
+				formData.get('additional_comments');
+		}
+
+		function deleteVisitor(event, visitorId) {
+			event.preventDefault();
+			fetch(`/visitors/delete/${visitorId}/`, {
+				method: 'POST',
+				headers: {
+					'X-CSRFToken': event.target.querySelector(
+						'[name=csrfmiddlewaretoken]'
+					).value,
+				},
+			}).then((response) => {
+				if (response.ok) {
+					document
+						.getElementById(`visitor-${visitorId}`)
+						.remove();
+				} else {
+					alert('Error deleting visitor');
+				}
+			});
+		}
+	</script>
+	{% endblock %}
+</body>

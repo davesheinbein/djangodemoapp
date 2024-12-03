@@ -1,22 +1,44 @@
-<html>
-	<head>
-		<link
-			rel="stylesheet"
-			type="text/css"
-			href="/static/styles.css"
-		/>
-	</head>
-	<body class="contact-body">
-		{% include 'header.html' %}
-		<div class="container contact-container">
+{% extends 'base.html' %} {% load static %}
+<body class="contact-body">
+	{% block content %}
+	<div class="contact">
+		<div class="contact-container">
 			<h1 class="contact-title">Contact Us</h1>
 			<p class="contact-info">
 				If you have any questions, feel free to reach out to
-				us.
+				out.
 			</p>
-			<p class="contact-email">Email: contact@davidsheinbein.com</p>
-			<p class="contact-phone">Phone: (123) 456-7890</p>
+			<p class="contact-email">
+				Email:
+				<a href="mailto:davidsheinbeindev@gmail.com"
+					>davidsheinbeindev@gmail.com</a
+				>
+			</p>
+			<p class="contact-phone">
+				Phone: <a href="tel:+13106285770">(310) 628-5770</a>
+			</p>
 		</div>
-		{% include 'footer.html' %}
-	</body>
-</html>
+		{% if user.is_authenticated %}
+		<div class="form-container">
+			<form method="post" class="visitor-form">
+				<h2 class="visitor-form-title">Who are you?</h2>
+				{% csrf_token %} {{ form.as_p }}
+				<button type="submit" class="btn-submit">
+					Submit
+				</button>
+			</form>
+			{% if success %}
+			<p class="form-success">
+				Thank you! Your data has been submitted.
+			</p>
+			{% endif %}
+		</div>
+		{% else %}
+		<p>
+			Please <a href="{% url 'login' %}">login</a> to fill
+			out the form.
+		</p>
+		{% endif %}
+	</div>
+	{% endblock %}
+</body>

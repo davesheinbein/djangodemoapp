@@ -59,7 +59,7 @@ ROOT_URLCONF = 'demoproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',  # Template backend
-        'DIRS': [BASE_DIR / 'templates'],  # Directories to search for templates
+        'DIRS': [BASE_DIR / 'templates'],  # Ensure this includes the templates directory
         'APP_DIRS': True,  # Enable template loading from installed apps
         'OPTIONS': {
             'context_processors': [
@@ -159,5 +159,6 @@ LOGGING = {
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
 
 SITE_ID = 1

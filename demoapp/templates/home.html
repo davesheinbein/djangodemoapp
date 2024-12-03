@@ -1,32 +1,29 @@
-<html>
-	<head>
-		<link
-			rel="stylesheet"
-			type="text/css"
-			href="/static/styles.css"
-		/>
-	</head>
-	<body class="home-body">
-		{% include 'header.html' %}
-		<div class="container home-container">
-			<h1 class="home-title">Hi there! This is the Home page.</h1>
-			<p class="home-welcome">
-				Welcome to our website. We are glad to have you
-				here.
-			</p>
-			<p class="home-services">
-				Our website offers a variety of services and
-				information.
-			</p>
-			<p class="home-browse">
-				Feel free to browse around and learn more about what
-				we do.
-			</p>
-			<p class="home-contact">
-				Contact us if you have any questions or need further
-				assistance.
-			</p>
-		</div>
-		{% include 'footer.html' %}
-	</body>
-</html>
+{% extends 'base.html' %} {% block content %}
+<div class="home">
+	<div class="home-container">
+		<h1 class="home-title">David Sheinbein</h1>
+		<p class="home-welcome">Full Stack Developer</p>
+		<p class="home-services">
+			Based in Los Angeles, CA, David Sheinbein is a
+			seasoned Full Stack Developer with over 5 years of
+			experience in managing diverse projects, from small
+			initiatives to multi-million dollar enterprises.
+		</p>
+		<p class="home-browse">
+			David excels in feature development and legacy code
+			upkeep, delivering impactful results across various
+			tech stacks. His expertise includes Angular, React,
+			Django, and more.
+		</p>
+		<p class="home-contact">
+			Feel free to explore his portfolio and reach out if
+			you have any questions or need further assistance.
+		</p>
+		{% if success %}
+		<p class="form-success">
+			Thank you! Your data has been submitted.
+		</p>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
