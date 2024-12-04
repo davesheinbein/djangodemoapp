@@ -26,3 +26,6 @@ Thumbs.db
 
 __pycache__
 ./compontents/__pycache__/
+
+# Logs
+error.log
