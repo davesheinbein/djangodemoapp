@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    # 'livereload',
+    'livereload',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +52,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',  # Messaging middleware
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  # Clickjacking protection middleware
     'allauth.account.middleware.AccountMiddleware',
-    # 'django.middleware.livereload.LiveReloadScript',
 ]
 
 # Root URL configuration
@@ -114,7 +113,7 @@ USE_TZ = True  # Enable time zone support
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = 'static/'  # URL for static files
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Directories to search for static files
+    BASE_DIR / "static",  # Ensure this directory exists or remove this line if not needed
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory to collect static files
 
@@ -134,13 +133,13 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'ERROR',
+            'level': 'ERROR', # ERROR / DEBUG
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'error.log',
             'formatter': 'concise',
         },
         'console': {
-            'level': 'ERROR',
+            'level': 'DEBUG', # ERROR / DEBUG
             'class': 'logging.StreamHandler',
             'formatter': 'concise',
         },
@@ -148,19 +147,19 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file', 'console'],
-            'level': 'ERROR',
+            'level': 'ERROR', # ERROR / DEBUG
             'propagate': True,
         },
         'demoapp': {
             'handlers': ['file', 'console'],
-            'level': 'ERROR',
+            'level': 'ERROR', # ERROR / DEBUG
             'propagate': True,
         },
     },
 }
 
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'  # Redirect to home after logout
 
 SITE_ID = 1
 

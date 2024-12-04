@@ -1,6 +1,26 @@
 {% load static %}
-<footer class="site-footer footer-content">
-	<p class="footer-text">
-		&copy; 2023 David Sheinbein. All rights reserved.
-	</p>
+<footer class="footer">
+	<div class="footer-data">
+		<!-- prettier-ignore -->
+		{% if visitors %}
+		<!-- prettier-ignore -->
+		<div class="footer-data-banner">
+			{% for visitor in visitors %}
+			<ul class="footer-data-banner-obj">
+				<li class="footer-data-banner-obj-item">{{ visitor.name }}</li>
+				<li class="footer-data-banner-obj-item">{{ visitor.favorite_thing_to_cook }}</li>
+				<li class="footer-data-banner-obj-item">{{ visitor.additional_comments }}</li>
+			</ul>
+			{% endfor %}
+		</div>
+		<!-- prettier-ignore -->
+		{% else %}
+		<p>No visitors found.</p>
+		{% endif %}
+	</div>
+	<div class="site-footer footer-content">
+		<p class="footer-text">
+			&copy; 2023 David Sheinbein. All rights reserved.
+		</p>
+	</div>
 </footer>

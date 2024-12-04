@@ -12,7 +12,9 @@
 					<th>Phone</th>
 					<th>Favorite Thing to Cook</th>
 					<th>Additional Comments</th>
+					{% if user.is_authenticated and user.is_staff %}
 					<th>Actions</th>
+					{% endif %}
 				</tr>
 			</thead>
 			<tbody id="visitorsTableBody">
@@ -24,8 +26,7 @@
 					<td>{{ visitor.favorite_thing_to_cook }}</td>
 					<td>{{ visitor.additional_comments }}</td>
 					<td class="row">
-						<!-- prettier-ignore -->
-						{% if user.is_authenticated and user == visitor.created_by or user.is_staff %} 
+						{% if user.is_authenticated and user.is_staff %}
 						<button
 							type="button"
 							class="btn-edit"
@@ -33,10 +34,6 @@
 						>
 							✏️
 						</button>
-						<!-- prettier-ignore -->
-						{% endif %} 
-						<!-- prettier-ignore -->
-						{% if user.is_authenticated and user.is_staff %} 
 						<form
 							method="post"
 							action="{% url 'delete_visitor' visitor.id %}"
@@ -47,7 +44,7 @@
 							<button type="submit" class="btn-delete">
 								❌
 							</button>
-						</for>
+						</form>
 						{% endif %}
 					</td>
 				</tr>
@@ -65,91 +62,116 @@
 			<span class="close" onclick="closeEditModal()"
 				>&times;</span
 			>
-			<form id="editVisitorForm" method="post">
-				{% csrf_token %}
+			<form
+				id="editVisitorForm"
+				method="post"
+				onsubmit="submitEditForm(event)"
+			>
 				<div id="modalFormContent"></div>
-				<button type="submit" class="btn-submit">
-					Save
-				</button>
 			</form>
 		</div>
 	</div>
 
 	<script>
 		function openEditModal(visitorId) {
-			fetch(`/visitors/edit/${visitorId}/`)
-				.then((response) => response.text())
-				.then((html) => {
-					document.getElementById(
-						'modalFormContent'
-					).innerHTML = html;
-					document.getElementById(
-						'editVisitorModal'
-					).style.display = 'block';
+			fetch(`/ajax/visitors/edit/${visitorId}/`)
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.success) {
+						document.getElementById(
+							'modalFormContent'
+						).innerHTML = data.html;
+						document.getElementById(
+							'editVisitorModal'
+						).style.display = 'block';
+					} else {
+						alert('Error loading form');
+					}
 				});
-		}
-
-		function closeEditModal() {
-			document.getElementById(
-				'editVisitorModal'
-			).style.display = 'none';
-		}
-
-		document
-			.getElementById('editVisitorForm')
-			.addEventListener('submit', function (event) {
-				event.preventDefault();
-				const formData = new FormData(this);
-				const visitorId = formData.get('id');
-				fetch(`/visitors/update/${visitorId}/`, {
-					method: 'POST',
-					body: formData,
-				})
-					.then((response) => response.json())
-					.then((data) => {
-						if (data.success) {
-							updateVisitorRow(visitorId, formData);
-							closeEditModal();
-						} else {
-							alert('Error updating visitor');
-						}
-					});
-			});
-
-		function updateVisitorRow(visitorId, formData) {
-			const row = document.getElementById(
-				`visitor-${visitorId}`
-			);
-			row.querySelector('td:nth-child(1)').textContent =
-				formData.get('name');
-			row.querySelector('td:nth-child(2)').textContent =
-				formData.get('email');
-			row.querySelector('td:nth-child(3)').textContent =
-				formData.get('phone');
-			row.querySelector('td:nth-child(4)').textContent =
-				formData.get('favorite_thing_to_cook');
-			row.querySelector('td:nth-child(5)').textContent =
-				formData.get('additional_comments');
 		}
 
 		function deleteVisitor(event, visitorId) {
 			event.preventDefault();
-			fetch(`/visitors/delete/${visitorId}/`, {
+			fetch(`/ajax/visitors/delete/${visitorId}/`, {
 				method: 'POST',
 				headers: {
 					'X-CSRFToken': event.target.querySelector(
 						'[name=csrfmiddlewaretoken]'
 					).value,
 				},
-			}).then((response) => {
-				if (response.ok) {
-					document
-						.getElementById(`visitor-${visitorId}`)
-						.remove();
-				} else {
-					alert('Error deleting visitor');
-				}
-			});
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.success) {
+						document
+							.getElementById(`visitor-${visitorId}`)
+							.remove();
+					} else {
+						alert('Error deleting visitor');
+					}
+				});
+		}
+
+		function submitEditForm(event) {
+			event.preventDefault();
+			const formData = new FormData(event.target);
+			const visitorId = formData.get('id');
+			fetch(`/ajax/visitors/update/${visitorId}/`, {
+				method: 'POST',
+				body: formData,
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then((data) => {
+					if (data.success) {
+						updateVisitorRow(visitorId, formData);
+						closeEditModal();
+					} else {
+						alert(
+							'Error updating visitor: ' +
+								JSON.stringify(data.errors)
+						);
+					}
+				})
+				.catch((error) => {
+					console.error(
+						'An error occurred while updating the visitor. Error:',
+						error
+					);
+				});
+		}
+
+		function updateVisitorRow(visitorId, formData) {
+			const row = document.getElementById(
+				`visitor-${visitorId}`
+			);
+			if (row) {
+				row.querySelector('td:nth-child(1)').textContent =
+					formData.get('name');
+				row.querySelector('td:nth-child(2)').textContent =
+					formData.get('email');
+				row.querySelector('td:nth-child(3)').textContent =
+					formData.get('phone');
+				row.querySelector('td:nth-child(4)').textContent =
+					formData.get('favorite_thing_to_cook');
+				row.querySelector('td:nth-child(5)').textContent =
+					formData.get('additional_comments');
+			} else {
+				console.error(
+					'Row not found for visitor ID:',
+					visitorId
+				);
+			}
+		}
+
+		function closeEditModal() {
+			document.getElementById(
+				'editVisitorModal'
+			).style.display = 'none';
 		}
 	</script>
 	{% endblock %}

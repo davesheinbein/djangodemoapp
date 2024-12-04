@@ -4,7 +4,7 @@ from . import views  # Import views module
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import handler404
-from .views import error_404_view, register, admin_view, home, about, contact, visitors, edit_visitor, update_visitor, delete_visitor, CustomLoginView
+from .views import error_404_view, register, admin_view, home, about, contact, visitors, edit_visitor, update_visitor, delete_visitor, CustomLoginView, ajax_edit_visitor, ajax_delete_visitor, ajax_update_visitor
 
 urlpatterns = [
     path('', home, name='home'),  # Home page
@@ -19,6 +19,9 @@ urlpatterns = [
     path('register/', register, name='register'),  # Register page
     path('accounts/', include('allauth.urls')),
     path('login/', CustomLoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('ajax/visitors/edit/<int:visitor_id>/', ajax_edit_visitor, name='ajax_edit_visitor'),
+    path('ajax/visitors/delete/<int:visitor_id>/', ajax_delete_visitor, name='ajax_delete_visitor'),
+    path('ajax/visitors/update/<int:visitor_id>/', ajax_update_visitor, name='ajax_update_visitor'),
 ]
 
 if settings.DEBUG:

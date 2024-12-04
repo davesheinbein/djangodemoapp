@@ -7,3 +7,4 @@ requests==2.32.3  # Simple HTTP library for Python
 sqlparse==0.5.2  # Non-validating SQL parser
 typing-extensions==4.12.2  # Backported and experimental type hints for Python
 urllib3==2.2.3  # HTTP library with thread-safe connection pooling
+livereload==2.6.3  # Ensure livereload is included

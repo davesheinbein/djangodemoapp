@@ -26,7 +26,10 @@ def main():
     logging.info("Finished manage.py")
 
     if 'runserver' in sys.argv:
-        pass
+        from livereload import Server
+        server = Server()
+        server.watch('**/*.*')
+        server.serve()  # Change the port number to avoid conflicts
 
 if __name__ == '__main__':
     main()

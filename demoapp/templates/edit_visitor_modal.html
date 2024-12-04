@@ -1,0 +1,43 @@
+{% load static %}
+<div class="edit-visitor-body">
+	{% block content %}
+	<div class="edit-visitor">
+		<h1 class="edit-visitor-title visitor-form-title">
+			Edit Visitor
+		</h1>
+		<div>
+			{% csrf_token %}
+			<input
+				type="hidden"
+				name="id"
+				value="{{ visitor.id }}"
+			/>
+			<div class="form-group-update">
+				<label for="id_name">Name:</label>
+				{{ form.name }}
+			</div>
+			<div class="form-group-update">
+				<label for="id_email">Email:</label>
+				{{ form.email }}
+			</div>
+			<div class="form-group-update">
+				<label for="id_phone">Phone:</label>
+				{{ form.phone }}
+			</div>
+			<div class="form-group-update">
+				<label for="id_favorite_thing_to_cook"
+					>Favorite Thing to Cook:</label
+				>
+				{{ form.favorite_thing_to_cook }}
+			</div>
+			<div class="form-group-update">
+				<label for="id_additional_comments"
+					>Additional Comments:</label
+				>
+				{{ form.additional_comments }}
+			</div>
+			<button type="submit" class="btn-submit">Save</button>
+		</div>
+	</div>
+	{% endblock %}
+</div>
