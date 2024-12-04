@@ -162,3 +162,8 @@ LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
 SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Use console backend for development
+
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_SAVE_EVERY_REQUEST = True

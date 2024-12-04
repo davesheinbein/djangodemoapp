@@ -1,14 +1,35 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="auth-container">
-    <h2 class="auth-title">Login</h2>
-    <form method="post" class="auth-form">
-        {% csrf_token %} {{ form.as_p }}
-        <button type="submit" class="btn-submit">Login</button>
-    </form>
-    <p class="auth-text">
-        Don't have an account?
-        <a href="{% url 'account_signup' %}" class="auth-link">Register here</a>.
-    </p>
+	<h2 class="auth-title">Login registration</h2>
+	<!-- registration login -->
+	<form method="post" class="auth-form">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="id_username">Username:</label>
+			{{ form.username }}
+		</div>
+		<div class="form-group">
+			<label for="id_password">Password:</label>
+			{{ form.password }}
+		</div>
+		<div class="form-group flex">
+			<label class="remember_me-title" for="id_remember_me"
+				>Remember me:</label
+			>
+			{{ form.remember_me }}
+		</div>
+		<button type="submit" class="btn-submit">Login</button>
+	</form>
+	<p class="auth-text">
+		<a href="{% url 'password_reset' %}" class="auth-link"
+			>Forgot your password?</a
+		>
+	</p>
+	<p class="auth-text">
+		Don't have an account?
+		<a href="{% url 'register' %}" class="auth-link"
+			>Register here</a
+		>.
+	</p>
 </div>
 {% endblock %}

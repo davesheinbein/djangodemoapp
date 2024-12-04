@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    # 'livereload',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',  # Messaging middleware
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  # Clickjacking protection middleware
     'allauth.account.middleware.AccountMiddleware',
+    # 'django.middleware.livereload.LiveReloadScript',
 ]
 
 # Root URL configuration
@@ -161,3 +163,5 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 SITE_ID = 1
+
+LOGIN_URL = 'login'

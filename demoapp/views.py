@@ -3,14 +3,25 @@ import json
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404, HttpResponseNotFound, JsonResponse, HttpResponseForbidden
 from django.views.decorators.cache import cache_page
-from django.views.decorators.http import require_POST, require_GET
-from .forms import VisitorForm
+from django.views.decorators.http import require_POST, require_GET, require_http_methods
+from .forms import VisitorForm, LoginForm
 from .models import Visitor
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.views import LoginView
 
 logger = logging.getLogger(__name__)
+
+class CustomLoginView(LoginView):
+    form_class = LoginForm
+    template_name = 'registration/login.html'
+
+    def form_valid(self, form):
+        remember_me = form.cleaned_data.get('remember_me')
+        if not remember_me:
+            self.request.session.set_expiry(0)  # Session expires when the browser is closed
+        return super().form_valid(form)
 
 def error_404_view(request, exception):
     logger.info("request", request)
@@ -96,8 +107,7 @@ def delete_visitor(request, visitor_id):
     visitor.delete()
     return redirect('visitors')
 
-@require_POST
-@login_required
+@require_http_methods(["GET", "POST"])
 def register(request):
     try:
         logger.info("Register view accessed")

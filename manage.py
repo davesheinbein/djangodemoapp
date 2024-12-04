@@ -25,5 +25,8 @@ def main():
     execute_from_command_line(sys.argv)
     logging.info("Finished manage.py")
 
+    if 'runserver' in sys.argv:
+        pass
+
 if __name__ == '__main__':
     main()

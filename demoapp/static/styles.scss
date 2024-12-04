@@ -1,4 +1,17 @@
+// Variables
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$text-color: #333;
+$background-color: #f5f5f5;
+$border-radius: 5px;
+$margin: 10px;
+$font-family: 'Arial, sans-serif';
+
+// Base styles
 body {
+	font-family: $font-family;
+	color: $text-color;
+	background-color: $background-color;
 	margin: 0;
 	padding: 0;
 	display: flex;
@@ -8,10 +21,11 @@ body {
 	min-height: 100vh;
 	min-width: 100vw;
 	width: 100%;
-	font-family: Arial, sans-serif;
 }
 
 .container {
+	max-width: 1200px;
+	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -330,7 +344,20 @@ form button:hover {
 .form-group label {
 	font-weight: bold;
 	font-size: 1.1rem;
-	margin-bottom: 0.5rem;
+	width: 100%;
+	max-width: fit-content;
+}
+
+.remember_me-title {
+	max-width: fit-content;
+	width: 100%;
+	margin-right: 10px;
+}
+
+#id_remember_me {
+	width: 20px;
+	max-width: fit-content;
+	margin: 0;
 }
 
 .form-group input,
@@ -470,101 +497,134 @@ form button:hover {
 }
 
 .auth-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #f9f9f9;
-	padding: 2rem;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background: #fff;
+	padding: 20px;
+	border-radius: $border-radius;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	max-width: 400px;
-	margin: 2rem auto;
-}
-
-.auth-title {
-	font-size: 2rem;
-	font-weight: 700;
-	color: #2c3e50;
-	margin-bottom: 1rem;
-}
-
-.auth-form {
 	width: 100%;
-	display: flex;
-	flex-direction: column;
+	min-width: 300px;
+	margin: $margin auto;
 	text-align: left;
 }
 
-.auth-form p {
-	margin: 0.5rem 0;
-	width: 100%;
+.auth-title {
+	font-size: 24px;
+	margin-bottom: $margin;
+	color: $primary-color;
+	text-align: center;
 }
 
-.auth-form label {
-	font-weight: bold;
-	font-size: 1.1rem;
-	margin-bottom: 0.5rem;
+.auth-form {
+	display: flex;
+	flex-direction: column;
 }
 
-.auth-form input {
-	width: 100%;
-	padding: 0.75rem;
+.auth-form input[type='text'],
+.auth-form input[type='password'],
+.auth-form input[type='email'] {
+	padding: 10px;
+	margin-bottom: $margin;
 	border: 1px solid #ccc;
-	border-radius: 4px;
-	font-size: 1rem;
-	margin-bottom: 1rem;
+	border-radius: $border-radius;
 }
 
-.auth-form input:focus {
-	border-color: #007bff;
-	outline: none;
-	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.auth-text {
-	margin-top: 1rem;
-	font-size: 1rem;
-	color: #7f8c8d;
-}
-
-.auth-link {
-	color: #007bff;
-	text-decoration: none;
-}
-
-.auth-link:hover {
-	text-decoration: underline;
-}
-
-.btn-submit {
-	margin-top: 1rem;
-	padding: 0.75rem 1.5rem;
-	background-color: #007bff;
+.auth-form button.btn-submit {
+	background-color: $primary-color;
 	color: #fff;
+	padding: 10px;
 	border: none;
-	border-radius: 4px;
+	border-radius: $border-radius;
 	cursor: pointer;
-	font-size: 1rem;
 	transition: background-color 0.3s ease;
 }
 
-.btn-submit:hover {
-	background-color: #0056b3;
+.auth-form button.btn-submit:hover {
+	background-color: darken($primary-color, 10%);
 }
 
 .auth-text {
-	margin-top: 1rem;
-	font-size: 1rem;
-	color: #7f8c8d;
+	text-align: center;
+	margin-top: $margin;
 }
 
 .auth-link {
-	color: #007bff;
+	color: $secondary-color;
 	text-decoration: none;
 }
 
 .auth-link:hover {
 	text-decoration: underline;
+}
+
+// Additional styles for password reset pages
+.password-reset-container {
+	background: #fff;
+	padding: 20px;
+	border-radius: $border-radius;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	max-width: 400px;
+	margin: $margin auto;
+}
+
+.password-reset-title {
+	font-size: 24px;
+	margin-bottom: $margin;
+	color: $primary-color;
+	text-align: center;
+}
+
+.password-reset-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.password-reset-form input[type='email'] {
+	padding: 10px;
+	margin-bottom: $margin;
+	border: 1px solid #ccc;
+	border-radius: $border-radius;
+}
+
+.password-reset-form button.btn-submit {
+	background-color: $primary-color;
+	color: #fff;
+	padding: 10px;
+	border: none;
+	border-radius: $border-radius;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.password-reset-form button.btn-submit:hover {
+	background-color: darken($primary-color, 10%);
+}
+
+.password-reset-text {
+	text-align: center;
+	margin-top: $margin;
+}
+
+.password-reset-link {
+	color: $secondary-color;
+	text-decoration: none;
+}
+
+.password-reset-link:hover {
+	text-decoration: underline;
+}
+
+.flex {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.help-text {
+	list-style-type: disc;
+	margin: 0;
+	padding-left: 15px;
+	color: $text-color;
 }
 
 @media (max-width: 768px) {

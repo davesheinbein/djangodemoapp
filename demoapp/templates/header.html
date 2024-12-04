@@ -53,7 +53,7 @@
 		<div class="nav-right-header">
 			{% if user.is_authenticated %}
 			<span class="header-username"
-				>Signed in: {{ user.username|capfirst }}</span
+				>{{ user.username|capfirst }}</span
 			>
 			<a
 				href="{% url 'logout' %}"
