@@ -22,7 +22,9 @@
 		<div class="form-container">
 			<form method="post" class="visitor-form">
 				<h2 class="visitor-form-title">Who are you?</h2>
-				{% csrf_token %} {{ form.as_p }}
+				{% csrf_token %}
+				<!-- prettier-ignore -->
+				{{ form.as_p }}
 				<button type="submit" class="btn-submit">
 					Submit
 				</button>
