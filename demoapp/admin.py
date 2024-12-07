@@ -3,7 +3,7 @@
 # By registering models, they become manageable through the admin interface.
 
 from django.contrib import admin
-from .models import HomePage, AboutPage, ContactPage, Visitor
+from .models import HomePage, AboutPage, ContactPage, Visitor, Profile, Category, Tag, Article, Author, Book
 
 class HomePageAdmin(admin.ModelAdmin):
     list_display = ('title', 'content')  # Display these fields in the list view
@@ -46,3 +46,9 @@ admin.site.register(HomePage, HomePageAdmin)
 admin.site.register(AboutPage, AboutPageAdmin)
 admin.site.register(ContactPage, ContactPageAdmin)
 admin.site.register(Visitor, VisitorAdmin)
+admin.site.register(Profile)
+admin.site.register(Category)
+admin.site.register(Tag)
+admin.site.register(Article)
+admin.site.register(Author)
+admin.site.register(Book)

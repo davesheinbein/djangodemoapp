@@ -1,0 +1,14 @@
+<!-- prettier-ignore -->
+{% block content %}
+<div class="add-category">
+	<h1>Add Category</h1>
+	<form method="post" id="addCategoryForm">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="id_name">Name:</label>
+			<input type="text" name="name" maxlength="100" required id="id_name">
+		</div>
+		<button type="submit">Submit</button>
+	</form>
+</div>
+{% endblock %}

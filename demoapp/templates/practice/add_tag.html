@@ -1,0 +1,11 @@
+{% block content %}
+<div class="add-tag">
+	<h1>Add Tag</h1>
+	<form method="post" id="addTagForm">
+		{% csrf_token %}
+		<!-- prettier-ignore -->
+		{{ form.as_p }}
+		<button type="submit">Submit</button>
+	</form>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "../base/base.html" %}
+<!-- prettier-ignore -->
+{% load static %}
+<!-- prettier-ignore -->
+{% block content %}
+<div class="practice">
+	<h1>Practice Page</h1>
+
+	<h2>Profiles</h2>
+	<ul>
+		{% for profile in profiles %}
+		<li data-id="{{ profile.user.id }}">
+			{{ profile.user.username }} - {{ profile.bio }}
+			<div class="button-row">
+				<button
+					onclick="openModal('{% url 'edit_profile' profile.user.id %}')"
+				>
+					Edit
+				</button>
+				<button
+					onclick="openModal('{% url 'update_profile' profile.user.id %}')"
+				>
+					Update
+				</button>
+				<button
+					onclick="deleteProfile({{ profile.user.id }})"
+				>
+					Delete
+				</button>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+	<button onclick="openModal('{% url 'add_profile' %}')">
+		Add Profile
+	</button>
+
+	<h2>Categories</h2>
+	<ul>
+		{% for category in categories %}
+		<li>{{ category.name }}</li>
+		{% endfor %}
+	</ul>
+	<button onclick="openModal('{% url 'add_category' %}')">
+		Add Category
+	</button>
+
+	<h2>Tags</h2>
+	<ul>
+		{% for tag in tags %}
+		<li>
+			{{ tag.name }}
+			<button
+				onclick="openModal('{% url 'delete_tag' tag.id %}')"
+			>
+				Delete
+			</button>
+		</li>
+		{% endfor %}
+	</ul>
+	<button onclick="openModal('{% url 'add_tag' %}')">
+		Add Tag
+	</button>
+
+	<h2>Articles</h2>
+	<ul>
+		{% for article in articles %}
+		<li>
+			{{ article.title }} - {{ article.content }} (Category:
+			{{ article.category.name }})
+			<div class="button-row">
+				<button onclick="deleteArticle({{ article.id }})">
+					Delete
+				</button>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+	<button onclick="openModal('{% url 'add_article' %}')">
+		Add Article
+	</button>
+
+	<h2>Authors</h2>
+	<ul>
+		{% for author in authors %}
+		<li>
+			{{ author.name }} - Books:
+			<ul>
+				{% for book in author.books.all %}
+				<li>
+					{{ book.title }} ({{ book.publication_date }})
+				</li>
+				{% endfor %}
+			</ul>
+		</li>
+		{% endfor %}
+	</ul>
+	<button onclick="openModal('{% url 'add_author' %}')">
+		Add Author
+	</button>
+
+	<h2>Books</h2>
+	<ul>
+		{% for book in books %}
+		<li>{{ book.title }} - {{ book.publication_date }}</li>
+		{% endfor %}
+	</ul>
+	<button onclick="openModal('{% url 'add_book' %}')">
+		Add Book
+	</button>
+</div>
+
+<div id="modal" class="modal">
+	<div class="modal-content">
+		<span class="close" onclick="closeModal()"
+			>&times;</span
+		>
+		<div id="modal-body"></div>
+	</div>
+</div>
+
+<script src="{% static 'js/practice.js' %}"></script>
+{% endblock %}

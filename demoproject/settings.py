@@ -113,7 +113,9 @@ USE_TZ = True  # Enable time zone support
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = 'static/'  # URL for static files
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Ensure this directory exists or remove this line if not needed
+    BASE_DIR / "static/css",  # Directories to search for CSS files
+    BASE_DIR / "static/js",   # Directories to search for JS files
+    BASE_DIR / "static/images",  # Directories to search for image files
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory to collect static files
 
@@ -133,13 +135,13 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'ERROR', # ERROR / DEBUG
+            'level': 'ERROR',  # ERROR / DEBUG
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'error.log',
             'formatter': 'concise',
         },
         'console': {
-            'level': 'DEBUG', # ERROR / DEBUG
+            'level': 'ERROR',  # ERROR / DEBUG
             'class': 'logging.StreamHandler',
             'formatter': 'concise',
         },
@@ -147,12 +149,12 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file', 'console'],
-            'level': 'ERROR', # ERROR / DEBUG
+            'level': 'ERROR',  # ERROR / DEBUG
             'propagate': True,
         },
         'demoapp': {
             'handlers': ['file', 'console'],
-            'level': 'ERROR', # ERROR / DEBUG
+            'level': 'ERROR',  # ERROR / DEBUG
             'propagate': True,
         },
     },

@@ -1,0 +1,62 @@
+[
+	{
+		"model": "auth.user",
+		"pk": 1,
+		"fields": {
+			"username": "admin",
+			"password": "Abcde12345!",
+			"is_superuser": true,
+			"is_staff": true,
+			"is_active": true,
+			"email": "admin@example.com"
+		}
+	},
+	{
+		"model": "demoapp.profile",
+		"pk": 1,
+		"fields": {
+			"user": 1,
+			"bio": "Admin user profile. Passionate about technology and software development."
+		}
+	},
+	{
+		"model": "demoapp.category",
+		"pk": 1,
+		"fields": {
+			"name": "Technology"
+		}
+	},
+	{
+		"model": "demoapp.tag",
+		"pk": 1,
+		"fields": {
+			"name": "Python"
+		}
+	},
+	{
+		"model": "demoapp.article",
+		"pk": 1,
+		"fields": {
+			"title": "The Future of Artificial Intelligence",
+			"content": "Artificial intelligence (AI) is poised to revolutionize the way we live and work. In this article, we explore the advancements in AI and its potential impact on society.",
+			"category": 1,
+			"tags": [1]
+		}
+	},
+	{
+		"model": "demoapp.author",
+		"pk": 1,
+		"fields": {
+			"name": "John Doe",
+			"books": [1]
+		}
+	},
+	{
+		"model": "demoapp.book",
+		"pk": 1,
+		"fields": {
+			"title": "AI for Beginners",
+			"publication_date": "2023-01-01"
+		}
+	}
+]

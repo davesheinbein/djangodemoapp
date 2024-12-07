@@ -29,6 +29,9 @@ def main():
         from livereload import Server
         server = Server()
         server.watch('**/*.*')
+        server.watch('static/css/*.css')  # Watch CSS files
+        server.watch('static/js/*.js')    # Watch JS files
+        server.watch('static/images/*.*') # Watch image files
         server.serve()  # Change the port number to avoid conflicts
 
 if __name__ == '__main__':

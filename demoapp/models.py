@@ -72,3 +72,45 @@ class Visitor(models.Model):
     class Meta:
         verbose_name = "Visitor"
         verbose_name_plural = "Visitors"
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    bio = models.TextField()
+
+    def __str__(self):
+        return self.user.username
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag)
+
+    def __str__(self):
+        return self.title
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    books = models.ManyToManyField('Book')
+
+    def __str__(self):
+        return self.name
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    publication_date = models.DateField()
+
+    def __str__(self):
+        return self.title
