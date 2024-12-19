@@ -380,17 +380,23 @@ def delete_tag(request, tag_id):
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def add_category(request):
+    logger.debug("hit add_category")
     if request.method == 'POST':
+        logger.debug("add_category POST request received")
         form = CategoryForm(request.POST)
+        logger.debug(f"add_category form: {form}")
         if form.is_valid():
             category = form.save()
             response_data = {'success': True, 'message': 'Category added successfully', 'category': {'id': category.id, 'name': category.name}}
             logger.debug(f"add_category response: {response_data}")
             return JsonResponse(response_data)
+        else:
+            logger.error(f"add_category form errors: {form.errors}")
         response_data = {'success': False, 'errors': form.errors}
         logger.debug(f"add_category response: {response_data}")
         return JsonResponse(response_data)
     else:
+        logger.debug("add_category GET request received")
         form = CategoryForm()
         html = render_to_string('practice/add_category.html', {'form': form}, request=request)
         response_data = {'success': True, 'html': html}

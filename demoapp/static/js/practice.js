@@ -12,6 +12,9 @@ function openModal(url) {
 						'block';
 				}
 			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
 		});
 }
 
@@ -56,6 +59,9 @@ function submitForm(event, url) {
 					errorElement.innerHTML = messages.join(', ');
 				}
 			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
 		});
 }
 
@@ -99,6 +105,9 @@ function updateProfile(event, url) {
 					errorElement.innerHTML = messages.join(', ');
 				}
 			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
 		});
 }
 
@@ -137,6 +146,9 @@ function editProfile(event, url) {
 					errorElement.innerHTML = messages.join(', ');
 				}
 			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
 		});
 }
 
@@ -160,47 +172,41 @@ function deleteProfile(profileId) {
 			} else {
 				console.log('Error: ' + data.error);
 			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
 		});
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-	const addCategoryForm = document.getElementById(
-		'addCategoryForm'
-	);
+	const addCategoryForm = document.getElementById('addCategoryForm');
 	if (addCategoryForm) {
-		addCategoryForm.addEventListener(
-			'submit',
-			function (event) {
-				event.preventDefault();
-				const formData = new FormData(this);
-				fetch("{% url 'add_category' %}", {
-					method: 'POST',
-					body: formData,
-					headers: {
-						'X-CSRFToken': formData.get(
-							'csrfmiddlewaretoken'
-						),
-					},
+		addCategoryForm.addEventListener('submit', function (event) {
+			event.preventDefault();
+			const formData = new FormData(this);
+			fetch("{% url 'add_category' %}", {
+				method: 'POST',
+				body: formData,
+				headers: {
+					'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+				},
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.success) {
+						const categoryList = document.querySelector('.practice ul:nth-of-type(2)');
+						const newCategory = document.createElement('li');
+						newCategory.innerHTML = data.category.name;
+						categoryList.appendChild(newCategory);
+						closeModal();
+					} else {
+						console.error('Error: ' + JSON.stringify(data.errors));
+					}
 				})
-					.then((response) => response.json())
-					.then((data) => {
-						if (data.success) {
-							const categoryList = document.querySelector(
-								'.practice ul:nth-of-type(2)'
-							);
-							const newCategory =
-								document.createElement('li');
-							newCategory.innerHTML = data.category.name;
-							categoryList.appendChild(newCategory);
-							closeModal();
-						} else {
-							alert(
-								'Error: ' + JSON.stringify(data.errors)
-							);
-						}
-					});
-			}
-		);
+				.catch((error) => {
+					console.error('Error:', error);
+				});
+		});
 	}
 
 	const addTagForm = document.getElementById('addTagForm');
@@ -220,11 +226,16 @@ document.addEventListener('DOMContentLoaded', function () {
 				.then((response) => response.json())
 				.then((data) => {
 					if (data.success) {
-						alert(data.message);
+						console.error(data.message);
 						location.reload();
 					} else {
-						alert('Error: ' + JSON.stringify(data.errors));
+						console.error(
+							'Error: ' + JSON.stringify(data.errors)
+						);
 					}
+				})
+				.catch((error) => {
+					console.error('Error:', error);
 				});
 		});
 	}
@@ -256,10 +267,13 @@ function deleteArticle(articleId) {
 		.then((response) => response.json())
 		.then((data) => {
 			if (data.success) {
-				alert(data.message);
+				console.error(data.message);
 				location.reload();
 			} else {
-				alert('Error: ' + data.error);
+				console.error('Error: ' + data.error);
 			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
 		});
 }

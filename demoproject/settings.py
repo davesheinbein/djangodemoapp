@@ -135,13 +135,13 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'ERROR',  # ERROR / DEBUG
+            'level': 'DEBUG',  # Set to DEBUG to capture all logs
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'error.log',
             'formatter': 'concise',
         },
         'console': {
-            'level': 'ERROR',  # ERROR / DEBUG
+            'level': 'DEBUG',  # Set to DEBUG to capture all logs
             'class': 'logging.StreamHandler',
             'formatter': 'concise',
         },
@@ -149,12 +149,12 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file', 'console'],
-            'level': 'ERROR',  # ERROR / DEBUG
+            'level': 'DEBUG',  # Set to DEBUG to capture all logs
             'propagate': True,
         },
         'demoapp': {
             'handlers': ['file', 'console'],
-            'level': 'ERROR',  # ERROR / DEBUG
+            'level': 'DEBUG',  # Set to DEBUG to capture all logs
             'propagate': True,
         },
     },
